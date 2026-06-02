@@ -1,0 +1,8 @@
+[Unit]
+Description=Prepare GloFAS data for river flood workflow
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/tan/startnet/
+ExecStart=/home/tan/startnet/placeholder.py
+SyslogIdentifier=river-flood-fetch

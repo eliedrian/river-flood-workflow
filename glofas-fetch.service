@@ -1,0 +1,15 @@
+[Unit]
+Description=Fetch GloFAS via lftp
+OnSuccess=river-flood-prepare.service
+
+[Service]
+Type=oneshot
+LoadCredential=password:/home/tan/startnet/ftp_password
+LoadCredential=username:/home/tan/startnet/ftp_username
+WorkingDirectory=/home/tan/startnet/data/
+ExecStart=/home/tan/startnet/glofas-fetch.sh
+SyslogIdentifier=glofas-fetch
+Restart=on-failure
+RestartSec=5
+RestartMaxDelaySec=120
+RestartSteps=3
