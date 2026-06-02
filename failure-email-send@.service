@@ -1,0 +1,9 @@
+[Unit]
+Description=Send failure email for %i
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/tan/startnet/failure-email-send.sh %i
+SyslogIdentifier=failure-email-send
