@@ -15,4 +15,5 @@ WorkingDirectory=/home/tan/startnet/data/
 ExecStart=/home/tan/startnet/glofas-fetch.sh
 SyslogIdentifier=glofas-fetch
 Restart=on-failure
+RestartMode=direct
 RestartSec=15
