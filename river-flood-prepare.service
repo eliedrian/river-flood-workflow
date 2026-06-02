@@ -1,5 +1,6 @@
 [Unit]
 Description=Prepare GloFAS data for river flood workflow
+OnFailure=failure-email-send@%n.service
 
 [Service]
 Type=oneshot

@@ -1,6 +1,7 @@
 [Unit]
 Description=Fetch GloFAS via lftp
 OnSuccess=river-flood-prepare.service
+OnFailure=failure-email-send@%n.service
 
 [Service]
 Type=oneshot
