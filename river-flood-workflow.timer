@@ -4,3 +4,6 @@ Description=Daily run of river flood workflow
 [Timer]
 OnCalendar=*-*-* 10:30 UTC
 Unit=river-flood-workflow.target
+
+[Install]
+WantedBy=timers.target
