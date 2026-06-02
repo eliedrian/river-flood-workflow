@@ -5,6 +5,7 @@ After=network-online.target
 OnFailure=failure-email-send@%n.service
 StartLimitIntervalSec=20min
 StartLimitBurst=79
+PartOf=river-flood-workflow.target
 
 [Service]
 Type=oneshot
