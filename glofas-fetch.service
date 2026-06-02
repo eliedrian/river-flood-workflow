@@ -4,6 +4,8 @@ OnSuccess=river-flood-prepare.service
 Wants=network-online.target
 After=network-online.target
 OnFailure=failure-email-send@%n.service
+StartLimitIntervalSec=20min
+StartLimitBurst=79
 
 [Service]
 Type=oneshot
@@ -13,6 +15,4 @@ WorkingDirectory=/home/tan/startnet/data/
 ExecStart=/home/tan/startnet/glofas-fetch.sh
 SyslogIdentifier=glofas-fetch
 Restart=on-failure
-RestartSec=5
-RestartMaxDelaySec=120
-RestartSteps=3
+RestartSec=15
