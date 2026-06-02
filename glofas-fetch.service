@@ -1,6 +1,8 @@
 [Unit]
 Description=Fetch GloFAS via lftp
 OnSuccess=river-flood-prepare.service
+Wants=network-online.target
+After=network-online.target
 OnFailure=failure-email-send@%n.service
 
 [Service]
