@@ -1,0 +1,12 @@
+[Unit]
+Description=Process GloFAS data for river flood workflow
+OnFailure=failure-email-send@%n.service
+After=glofas-fetch.service
+PartOf=river-flood-workflow.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/river-flood-workflow
+ExecStart=/usr/bin/river-flood-process
+SyslogIdentifier=river-flood-process
+
