@@ -11,10 +11,12 @@
 
 Populate credentials for SFTP in the following files:
 
-- `/etc/river-flood-workflow/ftp_username`
-- `/etc/river-flood-workflow/ftp_password`
+- `ftp_username`
+- `ftp_password`
 
-These files are loaded by `systemd` and used by the unit files.
+`make` will copy these files into the `/etc/river-flood-workflow`.
+
+TODO: combine these into a credentials file
 
 ## Mailing list
 
