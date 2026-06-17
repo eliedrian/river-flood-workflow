@@ -9,10 +9,10 @@ PartOf=river-flood-workflow.target
 
 [Service]
 Type=oneshot
-LoadCredential=password:/home/tan/startnet/ftp_password
-LoadCredential=username:/home/tan/startnet/ftp_username
-WorkingDirectory=/home/tan/startnet/data/
-ExecStart=/home/tan/startnet/glofas-fetch.sh
+LoadCredential=password:/etc/river-flood-workflow/ftp_password
+LoadCredential=username:/etc/river-flood-workflow/ftp_username
+WorkingDirectory=/var/cache/glofas
+ExecStart=/usr/bin/glofas-fetch
 SyslogIdentifier=glofas-fetch
 Restart=on-failure
 RestartMode=direct
