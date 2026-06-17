@@ -1,9 +1,18 @@
+## Requirements
+
+- `lftp`
+
+## Directories
+
+- `/etc/river-flood-workflow`: contains configuration
+- `/var/cache/glofas`: location of GloFAS data download
+
 ## Credentials 
 
 Populate credentials for SFTP in the following files:
 
-- `ftp_username`
-- `ftp_password`
+- `/etc/river-flood-workflow/ftp_username`
+- `/etc/river-flood-workflow/ftp_password`
 
 These files are loaded by `systemd` and used by the unit files.
 
