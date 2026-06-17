@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 unit="$1"
 
-templatefile="failure-email.tmpl"
+templatefile="/etc/river-flood-workflow/failure-email.tmpl"
 subject="[RiverFlood] Workflow failure"
-mailinglist="$(< mailing.list)"
+mailinglist="$(< /etc/river-flood-workflow/mailing.list)"
 toaddress="$(paste -sd, <<< "$mailinglist")"
-logs="$(journalctl --user -u "$unit" -n 200 --no-pager)"
+logs="$(journalctl -u "$unit" -n 200 --no-pager)"
 encodedlogs="$(base64 -w 0 <<< "$logs")"
 
 render() {
