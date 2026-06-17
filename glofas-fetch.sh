@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 date=$(date '+%Y%m%d')
 username=$(<$CREDENTIALS_DIRECTORY/username)
