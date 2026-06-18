@@ -10,13 +10,13 @@ ETCS:=failure-email.tmpl ftp_password ftp_username mailing.list
 .phony: install uninstall
 
 install:
-        $(foreach unit,$(UNITS),install -Dm644 $(unit) $(UNITS_DIR)/$(unit) ;)
-        $(foreach bin,$(BINS),install -Dm755 $(bin) $(BIN_DIR)/$(basename $(bin)) ;)
-        $(foreach etc,$(ETCS),install -Dm644 $(etc) $(ETC_DIR)/$(etc) ;)
-        systemctl daemon-reload
+	$(foreach unit,$(UNITS),install -Dm644 $(unit) $(UNITS_DIR)/$(unit) ;)
+	$(foreach bin,$(BINS),install -Dm755 $(bin) $(BIN_DIR)/$(basename $(bin)) ;)
+	$(foreach etc,$(ETCS),install -Dm644 $(etc) $(ETC_DIR)/$(etc) ;)
+	systemctl daemon-reload
 
 uninstall:
-        $(foreach unit,$(UNITS),rm $(UNITS_DIR)/$(unit) ;)
-        $(foreach bin,$(BINS),rm $(BIN_DIR)/$(basename $(bin)) ;)
-        $(foreach etc,$(ETCS),rm $(ETC_DIR)/$(etc) ;)
-        systemctl daemon-reload
+	$(foreach unit,$(UNITS),rm $(UNITS_DIR)/$(unit) ;)
+	$(foreach bin,$(BINS),rm $(BIN_DIR)/$(basename $(bin)) ;)
+	$(foreach etc,$(ETCS),rm $(ETC_DIR)/$(etc) ;)
+	systemctl daemon-reload
