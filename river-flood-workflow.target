@@ -1,5 +1,6 @@
 [Unit]
 Description=River flood workflow
 Requires=glofas-fetch.service
-Requires=river-flood-prepare.service
+Requires=river-flood-process.service
+Requires=glofas-cache-cleanup.service
 StopWhenUnneeded=yes
