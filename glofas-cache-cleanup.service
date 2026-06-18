@@ -1,0 +1,16 @@
+[Unit]
+Description=Cleanup GloFAS cache directory
+Before=glofas-fetch.service
+OnFailure=failure-email-send@%n.service
+PartOf=river-flood-workflow.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/var/cache/glofas
+ExecStart=/bin/bash -c '
+    find . -mindepth 1 -maxdepth 1 -type d |
+    xargs -r ls -td |
+    tail -n +2 |
+    xargs -r rm -rf
+'
+SyslogIdentifier=glofas-cache-cleanup
