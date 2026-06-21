@@ -18,5 +18,7 @@ install:
 uninstall:
 	$(foreach unit,$(UNITS),rm $(UNITS_DIR)/$(unit) ;)
 	$(foreach bin,$(BINS),rm $(BIN_DIR)/$(basename $(bin)) ;)
-	$(foreach etc,$(ETCS),rm $(ETC_DIR)/$(etc) ;)
 	systemctl daemon-reload
+
+purge: uninstall
+	rm -rfv $(ETC_DIR)
