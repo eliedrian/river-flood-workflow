@@ -20,8 +20,6 @@ render() {
 
 rendered="$(render)"
 
-echo "$rendered"
-
 msmtp -a default -t -- <<EOF
 $rendered
 EOF
