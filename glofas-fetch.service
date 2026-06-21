@@ -6,6 +6,8 @@ OnFailure=failure-email-send@%n.service
 StartLimitIntervalSec=20min
 StartLimitBurst=79
 PartOf=river-flood-workflow.target
+Wants=glofas-cache-cleanup.service
+After=glofas-cache-cleanup.service
 
 [Service]
 Type=oneshot

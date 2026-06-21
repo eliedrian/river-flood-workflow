@@ -1,6 +1,7 @@
 [Unit]
 Description=Process GloFAS data for river flood workflow
 OnFailure=failure-email-send@%n.service
+Requires=glofas-fetch.service
 After=glofas-fetch.service
 PartOf=river-flood-workflow.target
 

@@ -1,6 +1,5 @@
 [Unit]
 Description=Cleanup GloFAS cache directory
-Before=glofas-fetch.service
 OnFailure=failure-email-send@%n.service
 PartOf=river-flood-workflow.target
 
