@@ -5,11 +5,5 @@ PartOf=river-flood-workflow.target
 
 [Service]
 Type=oneshot
-WorkingDirectory=/var/cache/glofas
-ExecStart=/bin/bash -c '
-    find . -mindepth 1 -maxdepth 1 -type d |
-    xargs -r ls -td |
-    tail -n +2 |
-    xargs -r rm -rf
-'
+ExecStart=/usr/bin/glofas-cache-cleanup
 SyslogIdentifier=glofas-cache-cleanup
