@@ -1,4 +1,4 @@
 [Unit]
 Description=River flood workflow
 StopWhenUnneeded=yes
-Wants=river-flood-process.service
+Wants=glofas-cache-cleanup.service glofas-fetch.service river-flood-process.service
