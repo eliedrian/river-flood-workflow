@@ -7,18 +7,18 @@ UNITS:=glofas-fetch.service failure-email-send@.service river-flood-process.serv
 BINS:=failure-email-send.sh glofas-fetch.sh river-flood-process.sh
 ETCS:=failure-email.tmpl ftp_password ftp_username mailing.list
 
-.phony: install uninstall
+.phony: install uninstall purge
 
-install:
+install: 
 	$(foreach unit,$(UNITS),install -Dm644 $(unit) $(UNITS_DIR)/$(unit) ;)
 	$(foreach bin,$(BINS),install -Dm755 $(bin) $(BIN_DIR)/$(basename $(bin)) ;)
 	$(foreach etc,$(ETCS),install -Dm644 $(etc) $(ETC_DIR)/$(etc) ;)
 	systemctl daemon-reload
 
 uninstall:
-	$(foreach unit,$(UNITS),rm $(UNITS_DIR)/$(unit) ;)
-	$(foreach bin,$(BINS),rm $(BIN_DIR)/$(basename $(bin)) ;)
+	-$(foreach unit,$(UNITS),rm $(UNITS_DIR)/$(unit) ;)
+	-$(foreach bin,$(BINS),rm $(BIN_DIR)/$(basename $(bin)) ;)
 	systemctl daemon-reload
 
 purge: uninstall
-	rm -rfv $(ETC_DIR)
+	-rm -rfv $(ETC_DIR)
