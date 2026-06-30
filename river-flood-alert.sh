@@ -15,7 +15,7 @@ attachments=""
 render_attachments() {
 	shopt -s nullglob
 
-	for file in "$MAPS_DIR/*.{jpg,jpeg,png}"; do
+	for file in "$MAPS_DIR"/*.{jpg,jpeg,png}; do
 		mime=$(file --brief --mime-type "$file")
 		data=$(base64 -w 0 "$file")
 
@@ -43,13 +43,13 @@ render_attachments() {
 
 render() {
 	render_attachments
-	sed \
-		-e "s/{{TO_ADDRESS}}/$toaddress/g" \
-		-e "s/{{SUBJECT}}/$subject/g" \
-		-e "s/{{BOUNDARY}}/$boundary/g" \
-		-e "s/{{ATTACHMENTS}}/$attachments/g" \
-		-e "s/{{LOGS}}/$encodedlogs/g" \
-		"$templatefile"
+	sed -f - "$templatefile" << EOF
+		s/{{TO_ADDRESS}}/$toaddress/g"
+		s/{{SUBJECT}}/$subject/g"
+		s/{{BOUNDARY}}/$boundary/g"
+		s/{{ATTACHMENTS}}/$attachments/g"
+		s/{{LOGS}}/$encodedlogs/g"
+	EOF
 }
 
 rendered="$(render)"
