@@ -12,7 +12,7 @@ else
 	date=$(date '+%Y-%m-%d')
 fi
 
-/usr/bin/env uv run flood-monitoring \
+"$BASE_DIR"/.venv/bin/flood-monitoring \
 	--run-spec "$RUN_SPEC" \
 	--basins "$BASINS" \
 	--date "$date"
