@@ -13,8 +13,8 @@ else
 fi
 
 /usr/bin/env uv run flood-monitoring \
-    --run-spec "$RUN_SPEC" \
-    --basins "$BASINS"
+	--run-spec "$RUN_SPEC" \
+	--basins "$BASINS" \
 	--date "$date"
 
 DECISION_DIR="$BASE_DIR/data/gold/trigger_decisions/$date"
