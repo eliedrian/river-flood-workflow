@@ -6,11 +6,9 @@ BASE_DIR=/opt/river-flood-workflow
 RUN_SPEC="$BASE_DIR/config/run_specs/daily_monitoring_etl.yaml"
 BASINS=cagayan
 
-if [[ -n "${DEBUG:-}" ]]; then
-	date=$(date -d yesterday '+%Y-%m-%d')
-else
-	date=$(date '+%Y-%m-%d')
-fi
+GLOFAS_CACHE=/var/cache/glofas
+latest=$(basename $(printf '%s\n' "$GLOFAS_CACHE"/* | sort | tail -n1))
+date=$(date -d "$latest" '+%Y-%m-%d')
 
 "$BASE_DIR"/.venv/bin/flood-monitoring \
 	--run-spec "$RUN_SPEC" \
