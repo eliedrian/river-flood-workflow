@@ -7,8 +7,6 @@ else
 	date=$(date '+%Y%m%d')
 fi
 
-echo "$date"
-
 username=$(<$CREDENTIALS_DIRECTORY/username)
 password=$(<$CREDENTIALS_DIRECTORY/password)
 
