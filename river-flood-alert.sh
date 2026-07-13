@@ -28,7 +28,7 @@ render_attachments() {
 		attachments+="$data"$'\n'
 	done
 
-	decision_csv=trigger_decisions_*.csv
+	decision_csv=(trigger_decisions_*.csv)
 	mime=$(file --brief --mime-type "$decision_csv")
 	data=$(base64 -w 0 "$decision_csv")
 	attachments+=$'\n'
