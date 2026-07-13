@@ -43,7 +43,7 @@ render_attachments() {
 
 render() {
 	render_attachments
-	sed -f - "$templatefile" << EOF
+	sed -f - "$templatefile" <<- EOF
 		s/{{TO_ADDRESS}}/$toaddress/g"
 		s/{{SUBJECT}}/$subject/g"
 		s/{{BOUNDARY}}/$boundary/g"
@@ -54,6 +54,6 @@ render() {
 
 rendered="$(render)"
 
-msmtp -a default -t -- <<EOF
-$rendered
+msmtp -a default -t -- <<- EOF
+	$rendered
 EOF
