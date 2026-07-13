@@ -16,8 +16,8 @@ lftp "$username:$password@aux.ecmwf.int/fc_netcdf/$date" <<EOF
 set net:max-retries 10
 set net:reconnect-interval-base 5
 
-$(for n in "${nums[@]}"; do
-	printf 'mget --continue "*_%s_*.nc"\n' "$n"
+mget --continue --parallel 3 -O "$date" $(for n in "${nums[@]}"; do
+	printf '"*_%s_*.nc" ' "$n"
 done)
 bye
 EOF
