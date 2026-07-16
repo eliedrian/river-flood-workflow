@@ -10,6 +10,10 @@ toaddress="$(paste -sd, <<< "$mailinglist")"
 
 boundary="0000$(date +%s%N)000"
 
+attachments_file=$(mktemp)
+
+trap 'rm -f "$attachments_file"' EXIT
+
 render_attachments() {
 	attachments=""
 	shopt -s nullglob
@@ -38,7 +42,7 @@ render_attachments() {
 	attachments+=$'\n'
 	attachments+="$data"$'\n'
 
-	printf '%s' "$attachments"
+	printf '%s' "$attachments" > "$attachments_file"
 }
 
 render() {
@@ -47,7 +51,10 @@ render() {
 		s/{{TO_ADDRESS}}/$toaddress/g
 		s/{{SUBJECT}}/$subject/g
 		s/{{BOUNDARY}}/$boundary/g
-		s/{{ATTACHMENTS}}/$attachments/g
+		/{{ATTACHMENTS}}/{
+			r '"$attachments_file"'
+			d
+		}
 	EOF
 }
 
