@@ -5,5 +5,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
+User=eltan2
+Group=eltan2
 ExecStart=/usr/bin/failure-email-send %i
 SyslogIdentifier=failure-email-send

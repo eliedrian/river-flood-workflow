@@ -11,6 +11,7 @@ After=glofas-cache-cleanup.service
 
 [Service]
 Type=oneshot
+Environment="DEBUG=1"
 LoadCredential=password:/etc/river-flood-workflow/ftp_password
 LoadCredential=username:/etc/river-flood-workflow/ftp_username
 WorkingDirectory=/var/cache/glofas
