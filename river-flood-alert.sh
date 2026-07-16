@@ -31,16 +31,17 @@ render_attachments() {
 		attachments+="$data"$'\n'
 	done
 
-	decision_csv=("$DECISION_DIR"/trigger_decisions_*.csv)
-	mime=$(file --brief --mime-type "$decision_csv")
-	data=$(base64 -w 0 "$decision_csv")
-	attachments+=$'\n'
-	attachments+="--$boundary"$'\n'
-	attachments+="Content-Type: $mime"$'\n'
-	attachments+="Content-Transfer-Encoding: base64"$'\n'
-	attachments+="Content-Disposition: attachment; filename=\"$(basename "$decision_csv")\""$'\n'
-	attachments+=$'\n'
-	attachments+="$data"$'\n'
+	for csv_file in "$DECISION_DIR"/*.csv; do
+		mime=$(file --brief --mime-type "$csv_file")
+		data=$(base64 -w 0 "$csv_file")
+		attachments+=$'\n'
+		attachments+="--$boundary"$'\n'
+		attachments+="Content-Type: $mime"$'\n'
+		attachments+="Content-Transfer-Encoding: base64"$'\n'
+		attachments+="Content-Disposition: attachment; filename=\"$(basename "$csv_file")\""$'\n'
+		attachments+=$'\n'
+		attachments+="$data"$'\n'
+	done
 
 	printf '%s' "$attachments" > "$attachments_file"
 }
