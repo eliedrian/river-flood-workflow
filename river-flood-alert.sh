@@ -43,12 +43,12 @@ render_attachments() {
 
 render() {
 	render_attachments
-	sed \
-		-e "s/{{TO_ADDRESS}}/$toaddress/g" \
-		-e "s/{{SUBJECT}}/$subject/g" \
-		-e "s/{{BOUNDARY}}/$boundary/g" \
-		-e "s/{{ATTACHMENTS}}/$attachments/g" \
-		"$templatefile"
+	sed -f - "$templatefile" <<-EOF
+		s/{{TO_ADDRESS}}/$toaddress/g
+		s/{{SUBJECT}}/$subject/g
+		s/{{BOUNDARY}}/$boundary/g
+		s/{{ATTACHMENTS}}/$attachments/g
+	EOF
 }
 
 msmtp -a default -t -- <<- EOF
