@@ -6,7 +6,7 @@ MAPS_DIR="$DECISION_DIR/maps"
 templatefile="/etc/river-flood-workflow/alert-email.tmpl"
 subject="[RiverFlood] Alert Trigger"
 mailinglist="$(< /etc/river-flood-workflow/alert.list)"
-toaddress="$(paste -sd, <<< "$mailinglist")"
+toaddress=$(paste -sd, <<< "$mailinglist")
 
 boundary="0000$(date +%s%N)000"
 
@@ -38,7 +38,7 @@ render_attachments() {
 	attachments+="--$boundary"$'\n'
 	attachments+="Content-Type: $mime"$'\n'
 	attachments+="Content-Transfer-Encoding: base64"$'\n'
-	attachments+="Content-Disposition: attachment; filename=\"$(basename "$file")\""$'\n'
+	attachments+="Content-Disposition: attachment; filename=\"$(basename "$decision_csv")\""$'\n'
 	attachments+=$'\n'
 	attachments+="$data"$'\n'
 
@@ -52,12 +52,12 @@ render() {
 		s/{{SUBJECT}}/$subject/g
 		s/{{BOUNDARY}}/$boundary/g
 		/{{ATTACHMENTS}}/{
-			r '"$attachments_file"'
+			r $attachments_file
 			d
 		}
 	EOF
 }
 
 msmtp -a default -t -- <<- EOF
-	"$(render)"
+	$(render)
 EOF
