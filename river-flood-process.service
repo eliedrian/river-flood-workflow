@@ -9,5 +9,8 @@ PartOf=river-flood-workflow.target
 Type=oneshot
 Environment=BASE_DIR=/opt/river-flood-workflow
 ExecStart=/bin/sh -c '@bindir@/river-flood-process --cache-dir @cachedir@/glofas --date $$(date +%%Y-%%m-%%d)'
+User=eltan2
+Group=eltan2
+#Environment="DEBUG=1"
 SyslogIdentifier=river-flood-process
 

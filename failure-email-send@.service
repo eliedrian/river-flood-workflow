@@ -6,4 +6,6 @@ After=network-online.target
 [Service]
 Type=oneshot
 ExecStart=@bindir@/failure-email-send %i
+User=eltan2
+Group=eltan2
 SyslogIdentifier=failure-email-send
