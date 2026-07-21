@@ -14,6 +14,7 @@ Type=oneshot
 LoadCredential=password:@etcdir@/ftp_password
 LoadCredential=username:@etcdir@/ftp_username
 ExecStart=/bin/sh -c 'exec @bindir@/glofas-fetch -d $$(date +%%Y%%m%%d) -o @cachedir@/glofas'
+#Environment="DEBUG=1"
 SyslogIdentifier=glofas-fetch
 Restart=on-failure
 RestartMode=direct
