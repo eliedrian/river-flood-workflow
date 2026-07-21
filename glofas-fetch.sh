@@ -6,7 +6,7 @@ else
 	date=$(date '+%Y%m%d')
 fi
 
-queue_file="$date.queue"
+queue_file="$date.manifest"
 
 files_to_download=10
 if [[ ! -s "$queue_file" ]]; then
