@@ -3,7 +3,7 @@
 set -e
 
 BASE_DIR=/opt/river-flood-workflow
-RUN_SPEC="$BASE_DIR/config/run_specs/daily_monitoring_etl.yaml"
+RUN_SPEC="$BASE_DIR/config/run_specs/daily_monitoring.yaml"
 BASINS=cagayan
 
 GLOFAS_CACHE=/var/cache/glofas
