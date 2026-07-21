@@ -1,5 +1,4 @@
 #!/bin/bash
-files_to_download=10
 
 if [[ -n "${DEBUG:-}" ]]; then
 	date=$(date -d yesterday '+%Y%m%d')
@@ -7,10 +6,17 @@ else
 	date=$(date '+%Y%m%d')
 fi
 
+queue_file="$date.queue"
+
+files_to_download=10
+if [[ ! -s "$queue_file" ]]; then
+	printf '%02d\n' {0..50} | shuf -n "$files_to_download" > "$queue_file"
+fi
+
+mapfile -t nums < "$queue_file"
+
 username=$(<$CREDENTIALS_DIRECTORY/username)
 password=$(<$CREDENTIALS_DIRECTORY/password)
-
-nums=($(printf '%02d\n' {0..50} | shuf -n "$files_to_download"))
 
 lftp "$username:$password@aux.ecmwf.int/fc_netcdf/$date" <<EOF
 set cmd:verbose yes
