@@ -7,7 +7,13 @@ RUN_SPEC="$BASE_DIR/config/run_specs/daily_monitoring.yaml"
 BASINS=cagayan
 
 GLOFAS_CACHE=/var/cache/glofas
-latest=$(basename $(printf '%s\n' "$GLOFAS_CACHE"/* | sort | tail -n1))
+latest=$(
+	for d in "$GLOFAS_CACHE"/*; do
+		[[ -d "$d" ]] || continue
+		printf '%s\n' "${d##*/}"
+	done | sort | tail -n1
+)
+
 date=$(date -d "$latest" '+%Y-%m-%d')
 
 "$BASE_DIR"/.venv/bin/flood-monitoring \
