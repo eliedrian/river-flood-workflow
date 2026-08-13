@@ -23,6 +23,8 @@ date=$(date -d "$latest" '+%Y-%m-%d')
 
 DECISION_DIR="$BASE_DIR/data/gold/trigger_decisions/$date"
 DECISION_FILE="$DECISION_DIR/decision.txt"
+activation_file=("$DECISION_DIR/activation_$date*.csv")
+activation_file=${activation_file[0]}
 if [[ -f "$DECISION_FILE" ]]; then
 	DECISION=$(< "$DECISION_FILE")
 else
@@ -32,5 +34,6 @@ fi
 
 if [[ "$DECISION" == "triggered=True" ]]; then
 	echo 'Alert triggered! Sending out alert via email.'
+	/usr/bin/csv-activation "$activation_file"
 	/usr/bin/river-flood-alert "$DECISION_DIR"
 fi
