@@ -94,8 +94,8 @@ def main():
         safe_basin = re.sub(r'[<>:"/\\|?*]', "_", str(basin_name))
 
         # output in the same dir as the csv
-        csv_output = csv_file.parent / f"{base_name}_{safe_basin}_highest_severity.csv"
-        txt_output = csv_file.parent / f"{base_name}_{safe_basin}_activation_summary.txt"
+        csv_output = csv_file.parent / f"{safe_basin}_highest_severity.csv"
+        txt_output = csv_file.parent / f"{safe_basin}_activation_summary.txt"
 
         highest.to_frame().T.to_csv(csv_output, index=False)
 
