@@ -100,16 +100,16 @@ def main():
         highest.to_frame().T.to_csv(csv_output, index=False)
 
         with open(txt_output, "w") as f:
-            f.write(f"River Basin: {basin_name}\n")
-            f.write(f"Date: {highest['issue_date']}\n")
-            f.write(f"Activation Status: {highest['fired']}\n")
-            f.write(f"Severity Level: {activation_level}\n")
+            f.write(f"river_basin: {basin_name}\n")
+            f.write(f"date: {highest['issue_date']}\n")
+            f.write(f"activation_status: {highest['fired']}\n")
+            f.write(f"severity_level: {activation_level}\n")
             f.write(
-                f"Number of People estimated to be affected: "
+                f"population_affected: "
                 f"{int(highest['impact_population_at_fire']):,}\n"
             )
-            f.write(f"Certainty Level: {certainty:.2f}%\n")
-            f.write(f"Lead time: {highest['fire_lead']} days\n")
+            f.write(f"certainty_level: {certainty:.2f}%\n")
+            f.write(f"lead_time: {highest['fire_lead']} days\n")
 
         print(f"\nRiver Basin: {basin_name}")
         print(f"  CSV : {csv_output}")
