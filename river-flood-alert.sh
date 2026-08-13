@@ -18,8 +18,6 @@ while IFS=: read -r key value; do
     report["$key"]=$value
 done < "$DECISION_DIR/cagayan_activation_summary.txt"
 
-date=$(date -I)
-
 attachments_file=$(mktemp)
 
 trap 'rm -f "$attachments_file"' EXIT
