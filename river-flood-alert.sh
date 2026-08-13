@@ -16,7 +16,7 @@ declare -A report
 
 while IFS=: read -r key value; do
     report["$key"]=$value
-done < "$DECISION_DIR/cagayan_activation_summary.txt"
+done < "$DECISION_DIR/summary/cagayan_activation_summary.txt"
 
 attachments_file=$(mktemp)
 
