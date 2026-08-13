@@ -12,6 +12,14 @@ boundary_mixed="0000$(date +%s%N)000"
 boundary_alternate="111$(date +%s%N)1111"
 boundary_related="10$(date +%s%N)10101"
 
+declare -A report
+
+while IFS=: read -r key value; do
+    report["$key"]=$value
+done < "$DECISION_DIR/cagayan_activation_summary.txt"
+
+date=$(date -I)
+
 attachments_file=$(mktemp)
 
 trap 'rm -f "$attachments_file"' EXIT
@@ -56,6 +64,13 @@ render() {
 		s/{{BOUNDARY_MIXED}}/$boundary_mixed/g
 		s/{{BOUNDARY_ALTERNATE}}/$boundary_alternate/g
 		s/{{BOUNDARY_RELATED}}/$boundary_related/g
+		s/{{RIVER_BASIN}}/${report[river_basin]}/g
+		s/{{DATE}}/${report[date]}/g
+		s/{{ACTIVATION_STATUS}}/${report[activation_status]}/g
+		s/{{SEVERITY_LEVEL}}/${report[severity_level]}/g
+		s/{{POPULATION_AFFECTED}}/${report[population_affected]}/g
+		s/{{CERTAINTY}}/${report[certainty_level]}/g
+		s/{{LEAD_TIME}}/${report[lead_time]}/g
 		/{{ATTACHMENTS}}/{
 			r $attachments_file
 			d
