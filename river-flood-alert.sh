@@ -8,7 +8,9 @@ subject="[RiverFlood] Alert Trigger"
 mailinglist="$(< /etc/river-flood-workflow/alert.list)"
 toaddress=$(paste -sd, <<< "$mailinglist")
 
-boundary="0000$(date +%s%N)000"
+boundary_mixed="0000$(date +%s%N)000"
+boundary_alternate="111$(date +%s%N)1111"
+boundary_related="10$(date +%s%N)10101"
 
 attachments_file=$(mktemp)
 
@@ -23,7 +25,7 @@ render_attachments() {
 		data=$(base64 -w 0 "$file")
 
 		attachments+=$'\n'
-		attachments+="--$boundary"$'\n'
+		attachments+="--$boundary_mixed"$'\n'
 		attachments+="Content-Type: $mime"$'\n'
 		attachments+="Content-Transfer-Encoding: base64"$'\n'
 		attachments+="Content-Disposition: attachment; filename=\"$(basename "$file")\""$'\n'
@@ -35,7 +37,7 @@ render_attachments() {
 		mime=$(file --brief --mime-type "$csv_file")
 		data=$(base64 -w 0 "$csv_file")
 		attachments+=$'\n'
-		attachments+="--$boundary"$'\n'
+		attachments+="--$boundary_mixed"$'\n'
 		attachments+="Content-Type: $mime"$'\n'
 		attachments+="Content-Transfer-Encoding: base64"$'\n'
 		attachments+="Content-Disposition: attachment; filename=\"$(basename "$csv_file")\""$'\n'
@@ -51,7 +53,9 @@ render() {
 	sed -f - "$templatefile" <<-EOF
 		s/{{TO_ADDRESS}}/$toaddress/g
 		s/{{SUBJECT}}/$subject/g
-		s/{{BOUNDARY}}/$boundary/g
+		s/{{BOUNDARY_MIXED}}/$boundary_mixed/g
+		s/{{BOUNDARY_ALTERNATE}}/$boundary_alternate/g
+		s/{{BOUNDARY_RELATED}}/$boundary_related/g
 		/{{ATTACHMENTS}}/{
 			r $attachments_file
 			d
