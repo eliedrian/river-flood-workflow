@@ -4,7 +4,7 @@ ETC_DIR=/etc/river-flood-workflow
 
 UNITS:=glofas-fetch.service failure-email-send@.service river-flood-process.service river-flood-workflow.target river-flood-workflow.timer \
        glofas-cache-cleanup.service
-BINS:=failure-email-send.sh glofas-fetch.sh river-flood-process.sh glofas-cache-cleanup.sh river-flood-alert.sh
+BINS:=failure-email-send.sh glofas-fetch.sh river-flood-process.sh glofas-cache-cleanup.sh river-flood-alert.sh csv-extraction.py
 ETCS:=failure-email.tmpl ftp_password ftp_username mailing.list alert.list alert-email.tmpl
 
 .phony: install uninstall purge
