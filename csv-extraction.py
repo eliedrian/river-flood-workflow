@@ -62,6 +62,7 @@ def main():
         print(f"Error: '{csv_file}' does not exist.")
         sys.exit(1)
 
+    csv_file = csv_file.resolve() # take absolute path
     df = pd.read_csv(csv_file)
     df.columns = df.columns.str.strip()
 
@@ -92,8 +93,9 @@ def main():
 
         safe_basin = re.sub(r'[<>:"/\\|?*]', "_", str(basin_name))
 
-        csv_output = f"{base_name}_{safe_basin}_highest_severity.csv"
-        txt_output = f"{base_name}_{safe_basin}_activation_summary.txt"
+        # output in the same dir as the csv
+        csv_output = csv_path.parent / f"{base_name}_{safe_basin}_highest_severity.csv"
+        txt_output = csv_path.parent / f"{base_name}_{safe_basin}_activation_summary.txt"
 
         highest.to_frame().T.to_csv(csv_output, index=False)
 
