@@ -4,7 +4,7 @@ set -e
 
 BASE_DIR=/opt/river-flood-workflow
 RUN_SPEC="$BASE_DIR/config/run_specs/daily_monitoring.yaml"
-BASINS=cagayan
+BASINS=(cagayan bicol)
 
 GLOFAS_CACHE=/var/cache/glofas
 latest=$(
@@ -18,7 +18,7 @@ date=$(date -d "$latest" '+%Y-%m-%d')
 
 "$BASE_DIR"/.venv/bin/flood-monitoring \
 	--run-spec "$RUN_SPEC" \
-	--basins "$BASINS" \
+	--basins "${BASINS[@]}" \
 	--date "$date"
 
 DECISION_DIR="$BASE_DIR/data/gold/trigger_decisions/$date"
