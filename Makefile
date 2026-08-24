@@ -7,7 +7,12 @@ UNITS:=glofas-fetch.service failure-email-send@.service river-flood-process.serv
 BINS:=failure-email-send.sh glofas-fetch.sh river-flood-process.sh glofas-cache-cleanup.sh river-flood-alert.sh csv-extraction.py
 ETCS:=failure-email.tmpl ftp_password ftp_username mailing.list alert.list alert-email.tmpl
 
-.phony: install uninstall purge
+.phony: install uninstall purge diff
+
+diff:
+	$(foreach unit,$(UNITS),diff -u $(unit) $(UNITS_DIR)/$(unit) ;)
+	$(foreach bin,$(BINS),diff -u $(bin) $(BIN_DIR)/$(basename $(bin)) ;)
+	$(foreach etc,$(ETCS),diff -u $(etc) $(ETC_DIR)/$(etc) ;)
 
 install: 
 	$(foreach unit,$(UNITS),install -Dm644 $(unit) $(UNITS_DIR)/$(unit) ;)
