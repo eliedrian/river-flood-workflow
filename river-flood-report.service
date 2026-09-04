@@ -1,0 +1,7 @@
+[Unit]
+Description=Send logs and reporting for river flood workflow
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/river-flood-report
+SyslogIdentifier=river-flood-report

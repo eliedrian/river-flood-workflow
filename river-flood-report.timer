@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly reporting of river flood workflow
+
+[Timer]
+OnCalendar=Sat *-*-* 00:00:00
+Unit=river-flood-report.service
+
+[Install]
+WantedBy=timers.target
