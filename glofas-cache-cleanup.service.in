@@ -5,5 +5,5 @@ PartOf=river-flood-workflow.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/glofas-cache-cleanup
+ExecStart=@bindir@/glofas-cache-cleanup
 SyslogIdentifier=glofas-cache-cleanup

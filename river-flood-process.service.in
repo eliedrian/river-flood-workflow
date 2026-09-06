@@ -8,6 +8,6 @@ PartOf=river-flood-workflow.target
 [Service]
 Type=oneshot
 WorkingDirectory=/opt/river-flood-workflow
-ExecStart=/usr/bin/river-flood-process
+ExecStart=@bindir@/river-flood-process
 SyslogIdentifier=river-flood-process
 

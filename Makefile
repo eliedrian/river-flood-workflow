@@ -24,8 +24,6 @@ bins := failure-email-send.sh glofas-fetch.sh river-flood-process.sh \
 etcs := failure-email.tmpl ftp_password ftp_username mailing.list alert.list \
 	alert-email.tmpl report-email.tmpl weekly_report.list
 
-.phony: install uninstall purge diff
-
 diff:
 	$(foreach unit,$(units),diff -u $(unit) $(unitsdir)/$(unit) ;)
 	$(foreach bin,$(bins),diff -u $(bin) $(bindir)/$(basename $(bin)) ;)
@@ -42,10 +40,13 @@ uninstall:
 	-$(foreach bin,$(bins),rm $(bindir)/$(basename $(bin)) ;)
 	systemctl daemon-reload
 
+clean:
+	-rm *.service
+
 purge: uninstall
 	-rm -rfv $(etcdir)
 
-glofas-fetch.service: glofas-fetch.service.in
+.phony: install uninstall purge diff clean
 
 %.service : %.service.in
 	sed \
