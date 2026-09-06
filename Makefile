@@ -12,6 +12,8 @@ unitsdir = $(DESTDIR)$(PREFIX)/lib/systemd/system
 etcdir = $(DESTDIR)$(sysconfdir)/river-flood-workflow
 bindir = $(DESTDIR)$(PREFIX)/bin
 
+test_unitsdir = $(PREFIX)/share/systemd/user
+
 units := glofas-fetch.service failure-email-send@.service \
 	 river-flood-process.service river-flood-workflow.target \
 	 river-flood-workflow.timer glofas-cache-cleanup.service \
@@ -30,26 +32,40 @@ diff:
 	$(foreach etc,$(etcs),diff -u $(etc) $(etcdir)/$(etc) ;)
 
 install: $(units)
-	$(foreach unit,$(units),install -Dm644 $(unit) $(unitsdir)/$(unit) ;)
-	$(foreach bin,$(bins),install -Dm755 $(bin) $(bindir)/$(basename $(bin)) ;)
+	$(foreach unit,$(units),\
+		sed \
+		-e 's|@bindir@|$(bindir)|g' \
+		-e 's|@etcdir@|$(etcdir)|g' \
+		$(unit) | install -Dm644 /dev/stdin $(unitsdir)/$(unit) ;)
+	$(foreach bin,$(bins),\
+		sed \
+		-e 's|@bindir@|$(bindir)|g' \
+		-e 's|@etcdir@|$(etcdir)|g' \
+		$(bin) | install -Dm755 /dev/stdin $(bindir)/$(basename $(bin)) ;)
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
 	systemctl daemon-reload
+
+install-test:
+	$(foreach unit,$(units),\
+		sed \
+		-e 's|@bindir@|$(bindir)|g' \
+		-e 's|@etcdir@|$(etcdir)|g' \
+		$(unit) | install -Dm644 /dev/stdin $(test_unitsdir)/$(unit) ;)
+	$(foreach bin,$(bins),\
+		sed \
+		-e 's|@bindir@|$(bindir)|g' \
+		-e 's|@etcdir@|$(etcdir)|g' \
+		$(bin) | install -Dm755 /dev/stdin $(bindir)/$(basename $(bin)) ;)
+	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
+	systemctl --user daemon-reload
 
 uninstall:
 	-$(foreach unit,$(units),rm $(unitsdir)/$(unit) ;)
 	-$(foreach bin,$(bins),rm $(bindir)/$(basename $(bin)) ;)
 	systemctl daemon-reload
 
-clean:
-	-rm *.service
-
 purge: uninstall
 	-rm -rfv $(etcdir)
 
-.phony: install uninstall purge diff clean
+.PHONY: install uninstall purge diff install-test
 
-%.service : %.service.in
-	sed \
-		-e 's|@bindir@|$(bindir)|g' \
-		-e 's|@etcdir@|$(etcdir)|g' \
-		$< > $@
