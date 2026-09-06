@@ -11,6 +11,7 @@ endif
 unitsdir = $(DESTDIR)$(PREFIX)/lib/systemd/system
 etcdir = $(DESTDIR)$(sysconfdir)/river-flood-workflow
 bindir = $(DESTDIR)$(PREFIX)/bin
+cachedir = $(DESTDIR)$(PREFIX)/var/cache
 
 test_unitsdir = $(PREFIX)/share/systemd/user
 
@@ -36,13 +37,16 @@ install: $(units)
 		sed \
 		-e 's|@bindir@|$(bindir)|g' \
 		-e 's|@etcdir@|$(etcdir)|g' \
+		-e 's|@cachedir@|$(cachedir)|g' \
 		$(unit) | install -Dm644 /dev/stdin $(unitsdir)/$(unit) ;)
 	$(foreach bin,$(bins),\
 		sed \
 		-e 's|@bindir@|$(bindir)|g' \
 		-e 's|@etcdir@|$(etcdir)|g' \
+		-e 's|@cachedir@|$(cachedir)|g' \
 		$(bin) | install -Dm755 /dev/stdin $(bindir)/$(basename $(bin)) ;)
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
+	mkdir -p $(cachedir)/glofas
 	systemctl daemon-reload
 
 install-test:
@@ -50,13 +54,16 @@ install-test:
 		sed \
 		-e 's|@bindir@|$(bindir)|g' \
 		-e 's|@etcdir@|$(etcdir)|g' \
+		-e 's|@cachedir@|$(cachedir)|g' \
 		$(unit) | install -Dm644 /dev/stdin $(test_unitsdir)/$(unit) ;)
 	$(foreach bin,$(bins),\
 		sed \
 		-e 's|@bindir@|$(bindir)|g' \
 		-e 's|@etcdir@|$(etcdir)|g' \
+		-e 's|@cachedir@|$(cachedir)|g' \
 		$(bin) | install -Dm755 /dev/stdin $(bindir)/$(basename $(bin)) ;)
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
+	mkdir -p $(cachedir)/glofas
 	systemctl --user daemon-reload
 
 uninstall:

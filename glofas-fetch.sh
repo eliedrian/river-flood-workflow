@@ -1,10 +1,6 @@
 #!/bin/bash
 
-if [[ -n "${DEBUG:-}" ]]; then
-	date=$(date -d yesterday '+%Y%m%d')
-else
-	date=$(date '+%Y%m%d')
-fi
+date="$1"
 
 username=$(<$CREDENTIALS_DIRECTORY/username)
 password=$(<$CREDENTIALS_DIRECTORY/password)
