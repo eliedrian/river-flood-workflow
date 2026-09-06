@@ -11,10 +11,10 @@ After=glofas-cache-cleanup.service
 
 [Service]
 Type=oneshot
-LoadCredential=password:/etc/river-flood-workflow/ftp_password
-LoadCredential=username:/etc/river-flood-workflow/ftp_username
+LoadCredential=password:@etcdir@/ftp_password
+LoadCredential=username:@etcdir@/ftp_username
 WorkingDirectory=/var/cache/glofas
-ExecStart=/usr/bin/glofas-fetch
+ExecStart=@bindir@/glofas-fetch
 SyslogIdentifier=glofas-fetch
 Restart=on-failure
 RestartMode=direct

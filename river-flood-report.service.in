@@ -3,5 +3,5 @@ Description=Send logs and reporting for river flood workflow
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/river-flood-report
+ExecStart=/usr/bin/river-flood-report $(date +%%Y-%%m-%%d)
 SyslogIdentifier=river-flood-report

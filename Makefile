@@ -1,29 +1,54 @@
-UNITS_DIR=/etc/systemd/system
-BIN_DIR=/usr/bin
-ETC_DIR=/etc/river-flood-workflow
+.POSIX:
 
-UNITS:=glofas-fetch.service failure-email-send@.service river-flood-process.service river-flood-workflow.target river-flood-workflow.timer \
-       glofas-cache-cleanup.service
-BINS:=failure-email-send.sh glofas-fetch.sh river-flood-process.sh glofas-cache-cleanup.sh river-flood-alert.sh csv-extraction.py
-ETCS:=failure-email.tmpl ftp_password ftp_username mailing.list alert.list alert-email.tmpl
+PREFIX ?= /usr
+
+ifeq ($(PREFIX),/usr)
+sysconfdir = /etc
+else
+sysconfdir = $(PREFIX)/etc
+endif
+
+unitsdir = $(DESTDIR)$(PREFIX)/lib/systemd/system
+etcdir = $(DESTDIR)$(sysconfdir)/river-flood-workflow
+bindir = $(DESTDIR)$(PREFIX)/bin
+
+units := glofas-fetch.service failure-email-send@.service \
+	 river-flood-process.service river-flood-workflow.target \
+	 river-flood-workflow.timer glofas-cache-cleanup.service \
+	 river-flood-report.timer river-flood-report.service
+
+bins := failure-email-send.sh glofas-fetch.sh river-flood-process.sh \
+	glofas-cache-cleanup.sh river-flood-alert.sh csv-extraction.py \
+	river-flood-report.sh
+
+etcs := failure-email.tmpl ftp_password ftp_username mailing.list alert.list \
+	alert-email.tmpl report-email.tmpl weekly_report.list
 
 .phony: install uninstall purge diff
 
 diff:
-	$(foreach unit,$(UNITS),diff -u $(unit) $(UNITS_DIR)/$(unit) ;)
-	$(foreach bin,$(BINS),diff -u $(bin) $(BIN_DIR)/$(basename $(bin)) ;)
-	$(foreach etc,$(ETCS),diff -u $(etc) $(ETC_DIR)/$(etc) ;)
+	$(foreach unit,$(units),diff -u $(unit) $(unitsdir)/$(unit) ;)
+	$(foreach bin,$(bins),diff -u $(bin) $(bindir)/$(basename $(bin)) ;)
+	$(foreach etc,$(etcs),diff -u $(etc) $(etcdir)/$(etc) ;)
 
-install: 
-	$(foreach unit,$(UNITS),install -Dm644 $(unit) $(UNITS_DIR)/$(unit) ;)
-	$(foreach bin,$(BINS),install -Dm755 $(bin) $(BIN_DIR)/$(basename $(bin)) ;)
-	$(foreach etc,$(ETCS),install -Dm644 $(etc) $(ETC_DIR)/$(etc) ;)
+install: $(units)
+	$(foreach unit,$(units),install -Dm644 $(unit) $(unitsdir)/$(unit) ;)
+	$(foreach bin,$(bins),install -Dm755 $(bin) $(bindir)/$(basename $(bin)) ;)
+	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
 	systemctl daemon-reload
 
 uninstall:
-	-$(foreach unit,$(UNITS),rm $(UNITS_DIR)/$(unit) ;)
-	-$(foreach bin,$(BINS),rm $(BIN_DIR)/$(basename $(bin)) ;)
+	-$(foreach unit,$(units),rm $(unitsdir)/$(unit) ;)
+	-$(foreach bin,$(bins),rm $(bindir)/$(basename $(bin)) ;)
 	systemctl daemon-reload
 
 purge: uninstall
-	-rm -rfv $(ETC_DIR)
+	-rm -rfv $(etcdir)
+
+glofas-fetch.service: glofas-fetch.service.in
+
+%.service : %.service.in
+	sed \
+		-e 's|@bindir@|$(bindir)|g' \
+		-e 's|@etcdir@|$(etcdir)|g' \
+		$< > $@
