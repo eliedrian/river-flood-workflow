@@ -3,9 +3,9 @@
 DECISION_DIR="$1"
 MAPS_DIR="$DECISION_DIR/maps"
 
-templatefile="/etc/river-flood-workflow/alert-email.tmpl"
+templatefile="@etcdir@/alert-email.tmpl"
 subject="[RiverFlood] Alert Trigger"
-mailinglist="$(< /etc/river-flood-workflow/alert.list)"
+mailinglist="$(< @etcdir@/alert.list)"
 toaddress=$(paste -sd, <<< "$mailinglist")
 
 boundary_mixed="0000$(date +%s%N)000"
