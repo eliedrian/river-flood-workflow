@@ -68,6 +68,7 @@ install-test:
 
 uninstall:
 	-$(foreach unit,$(units),rm $(unitsdir)/$(unit) ;)
+	-$(foreach unit,$(units),rm $(test_unitsdir)/$(unit) ;)
 	-$(foreach bin,$(bins),rm $(bindir)/$(basename $(bin)) ;)
 	systemctl daemon-reload
 
