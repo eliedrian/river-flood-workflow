@@ -25,17 +25,17 @@ BASINS=(cagayan bicol)
 	--date "$date"
 
 DECISION_DIR="$BASE_DIR/data/gold/trigger_decisions/$date"
-DECISION_FILE="$DECISION_DIR/decision.txt"
+decision_file="$DECISION_DIR/decision.txt"
 activation_file=("$DECISION_DIR/activation_$date*.csv")
 activation_file=${activation_file[0]}
-if [[ -f "$DECISION_FILE" ]]; then
-	DECISION=$(< "$DECISION_FILE")
+if [[ -f "$decision_file" ]]; then
+	decision=$(< "$decision_file")
 else
 	echo 'No alert requested.'
-	DECISION=""
+	decision=""
 fi
 
-if [[ "$DECISION" == "triggered=True" ]]; then
+if [[ "$decision" == "triggered=True" ]]; then
 	echo 'Alert triggered! Sending out alert via email.'
 	@bindir@/csv-activation "$activation_file"
 	@bindir@/river-flood-alert "$DECISION_DIR"
