@@ -1,11 +1,23 @@
 #!/bin/bash
 
-DECISION_DIR="$1"
-MAPS_DIR="$DECISION_DIR/maps"
-
-templatefile="@etcdir@/alert-email.tmpl"
 subject="[RiverFlood] Alert Trigger"
-mailinglist="$(< @etcdir@/alert.list)"
+
+args=()
+while [ $# -gt 0 ]; do
+  case $1 in
+    --template-file) templatefile=$2; shift 2 ;;
+	--mailing-list) mailinglistfile=$2; shift 2 ;;
+	--subject) subject=$2; shift 2 ;;
+    --) shift; args+=("$@"); break ;;
+    *)  args+=("$1"); shift ;;
+  esac
+done
+set -- "${args[@]}"
+
+decision_dir="$1"
+maps_dir="$decision_dir/maps"
+
+mailinglist=$(< "$mailinglistfile")
 toaddress=$(paste -sd, <<< "$mailinglist")
 
 boundary_mixed="0000$(date +%s%N)000"
@@ -16,7 +28,7 @@ declare -A report
 
 while IFS=: read -r key value; do
     report["$key"]=$value
-done < "$DECISION_DIR/summary/cagayan_activation_summary.txt"
+done < "$decision_dir/summary/cagayan_activation_summary.txt"
 
 attachments_file=$(mktemp)
 
@@ -26,7 +38,7 @@ render_attachments() {
 	attachments=""
 	shopt -s nullglob
 
-	for file in "$MAPS_DIR"/*.{jpg,jpeg,png}; do
+	for file in "$maps_dir"/*.{jpg,jpeg,png}; do
 		mime=$(file --brief --mime-type "$file")
 		data=$(base64 -w 0 "$file")
 
@@ -39,7 +51,7 @@ render_attachments() {
 		attachments+="$data"$'\n'
 	done
 
-	for csv_file in "$DECISION_DIR"/*.csv; do
+	for csv_file in "$decision_dir"/*.csv; do
 		mime=$(file --brief --mime-type "$csv_file")
 		data=$(base64 -w 0 "$csv_file")
 		attachments+=$'\n'

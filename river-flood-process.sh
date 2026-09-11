@@ -38,5 +38,7 @@ fi
 if [[ "$decision" == "triggered=True" ]]; then
 	echo 'Alert triggered! Sending out alert via email.'
 	@bindir@/csv-activation "$activation_file"
-	@bindir@/river-flood-alert "$DECISION_DIR"
+	@bindir@/river-flood-alert --template-file @etcdir@/alert-email.tmpl \
+		--mailing-list @etcdir@/alert.list --subject '[RiverFlood] Alert trigger' \
+		"$DECISION_DIR"
 fi
