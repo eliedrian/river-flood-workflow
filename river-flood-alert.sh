@@ -4,13 +4,13 @@ subject="[RiverFlood] Alert Trigger"
 
 args=()
 while [ $# -gt 0 ]; do
-  case $1 in
-    --template-file) templatefile=$2; shift 2 ;;
-	--mailing-list) mailinglistfile=$2; shift 2 ;;
-	--subject) subject=$2; shift 2 ;;
-    --) shift; args+=("$@"); break ;;
-    *)  args+=("$1"); shift ;;
-  esac
+	case $1 in
+		--template-file) templatefile=$2; shift 2 ;;
+		--mailing-list) mailinglistfile=$2; shift 2 ;;
+		--subject) subject=$2; shift 2 ;;
+		--) shift; args+=("$@"); break ;;
+		*)  args+=("$1"); shift ;;
+	esac
 done
 set -- "${args[@]}"
 
@@ -27,7 +27,7 @@ boundary_related="10$(date +%s%N)10101"
 declare -A report
 
 while IFS=: read -r key value; do
-    report["$key"]=$value
+	report["$key"]=$value
 done < "$decision_dir/summary/cagayan_activation_summary.txt"
 
 attachments_file=$(mktemp)
