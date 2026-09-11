@@ -1,9 +1,11 @@
 #!/bin/bash
 
+set -e
+
 date=$(date +%Y%m%d)
 outdir=$(pwd)
 
-while getopts ":d:o:" opt; do
+while getopts "d:o:" opt; do
 	case $opt in
 		d) date=$OPTARG ;;
 		o) outdir=$OPTARG ;;
