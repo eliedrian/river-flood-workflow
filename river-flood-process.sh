@@ -2,19 +2,22 @@
 
 set -e
 
-BASE_DIR=/opt/river-flood-workflow
+date=$(date '+%Y-%m-%d')
+cache_dir=@cachedir@/glofas
+
+args=()
+while [ $# -gt 0 ]; do
+  case $1 in
+    --cache-dir) cache_dir=$2; shift 2 ;;
+	--date) date=$2; shift 2 ;;
+    --) shift; args+=("$@"); break ;;
+    *)  args+=("$1"); shift ;;
+  esac
+done
+set -- "${args[@]}"
+
 RUN_SPEC="$BASE_DIR/config/run_specs/daily_monitoring.yaml"
 BASINS=(cagayan bicol)
-
-GLOFAS_CACHE=@cachedir@/glofas
-latest=$(
-	for d in "$GLOFAS_CACHE"/*; do
-		[[ -d "$d" ]] || continue
-		printf '%s\n' "${d##*/}"
-	done | sort | tail -n1
-)
-
-date=$(date -d "$latest" '+%Y-%m-%d')
 
 "$BASE_DIR"/.venv/bin/flood-monitoring \
 	--run-spec "$RUN_SPEC" \

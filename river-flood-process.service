@@ -7,7 +7,7 @@ PartOf=river-flood-workflow.target
 
 [Service]
 Type=oneshot
-WorkingDirectory=/opt/river-flood-workflow
-ExecStart=@bindir@/river-flood-process
+Environment=BASE_DIR=/opt/river-flood-workflow
+ExecStart=/bin/sh -c '@bindir@/river-flood-process --cache-dir @cachedir@/glofas --date $$(date +%%Y-%%m-%%d)'
 SyslogIdentifier=river-flood-process
 
