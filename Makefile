@@ -46,6 +46,7 @@ install: $(units)
 		-e 's|@cachedir@|$(cachedir)|g' \
 		$(bin) | install -Dm755 /dev/stdin $(bindir)/$(basename $(bin)) ;)
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
+	install -Dm600 msmtprc $(etcdir)/msmtprc
 	mkdir -p $(cachedir)/glofas
 	systemctl daemon-reload
 
@@ -63,6 +64,7 @@ install-test:
 		-e 's|@cachedir@|$(cachedir)|g' \
 		$(bin) | install -Dm755 /dev/stdin $(bindir)/$(basename $(bin)) ;)
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
+	install -Dm600 msmtprc $(etcdir)/msmtprc
 	mkdir -p $(cachedir)/glofas
 	systemctl --user daemon-reload
 

@@ -20,6 +20,6 @@ render() {
 
 rendered="$(render)"
 
-msmtp -a default -t -- <<EOF
+msmtp -C @etcdir@/msmtprc -a default -t -- <<EOF
 $rendered
 EOF

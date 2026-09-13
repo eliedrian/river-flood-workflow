@@ -88,6 +88,6 @@ render() {
 	EOF
 }
 
-msmtp -a default -t -- <<- EOF
+msmtp -C @etcdir@/msmtprc -a default -t -- <<- EOF
 	$(render)
 EOF
