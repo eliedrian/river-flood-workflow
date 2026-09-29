@@ -1,0 +1,11 @@
+[Unit]
+Description=Push river flood workflow log to dashboard
+OnFailure=failure-email-send@%n.service
+PartOf=river-flood-workflow-dashboard-update.target
+After=river-flood-workflow-dashboard-log-dump.service
+
+[Service]
+Type=oneshot
+Environment=REPOSITORY=/opt/flood-model-dashboard-SN
+ExecStart=/bin/sh -c '@bindir@/river-flood-workflow-dashboard-log-push -f @cachedir@/river-flood-workflow/workflow.log'
+SyslogIdentifier=river-flood-workflow-dashboard-log-push

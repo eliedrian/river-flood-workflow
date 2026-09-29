@@ -1,0 +1,4 @@
+[Unit]
+Description=Update river flood workflow dashboard
+StopWhenUnneeded=yes
+Wants=river-flood-workflow-log-dump.service river-flood-workflow-dashboard-log-push.service

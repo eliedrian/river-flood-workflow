@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily update of river flood workflow dashboard
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+Unit=river-flood-workflow-dashboard-update.target
+
+[Install]
+WantedBy=timers.target

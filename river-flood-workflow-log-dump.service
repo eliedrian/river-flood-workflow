@@ -1,0 +1,8 @@
+[Unit]
+Description=Dump river flood workflow logs
+OnFailure=failure-email-send@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'exec @bindir@/river-flood-workflow-log-dump -S $$(date -d \'1 week ago\' +%%Y-%%m-%%d) -o @cachedir@/river-flood-workflow/workflow.log'
+SyslogIdentifier=river-flood-workflow-log-dump

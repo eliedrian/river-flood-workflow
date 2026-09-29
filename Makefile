@@ -18,11 +18,15 @@ test_unitsdir = $(PREFIX)/share/systemd/user
 units := glofas-fetch.service failure-email-send@.service \
 	 river-flood-process.service river-flood-workflow.target \
 	 river-flood-workflow.timer glofas-cache-cleanup.service \
-	 river-flood-report.timer river-flood-report.service
+	 river-flood-report.timer river-flood-report.service \
+	 river-flood-workflow-log-dump.service \
+	 river-flood-workflow-dashboard-update.timer \
+	 river-flood-workflow-dashboard-update.target \
+	 river-flood-workflow-dashboard-log-push.service
 
 bins := failure-email-send.sh glofas-fetch.sh river-flood-process.sh \
-	glofas-cache-cleanup.sh river-flood-alert.sh csv-extraction.py \
-	river-flood-report.sh
+	river-flood-alert.sh csv-extraction.py river-flood-report.sh \
+	river-flood-workflow-log-dump.sh river-flood-workflow-dashboard-log-push.sh
 
 etcs := failure-email.tmpl ftp_password ftp_username mailing.list alert.list \
 	alert-email.tmpl report-email.tmpl weekly_report.list
@@ -48,6 +52,7 @@ install: $(units)
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
 	install -Dm600 msmtprc $(etcdir)/msmtprc
 	mkdir -p $(cachedir)/glofas
+	mkdir -p $(cachedir)/river-flood-workflow
 	systemctl daemon-reload
 
 install-test:
@@ -66,6 +71,7 @@ install-test:
 	$(foreach etc,$(etcs),install -Dm644 $(etc) $(etcdir)/$(etc) ;)
 	install -Dm600 msmtprc $(etcdir)/msmtprc
 	mkdir -p $(cachedir)/glofas
+	mkdir -p $(cachedir)/river-flood-workflow
 	systemctl --user daemon-reload
 
 uninstall:
