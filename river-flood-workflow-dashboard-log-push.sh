@@ -10,7 +10,7 @@ while getopts "f:" opt; do
 	esac
 done
 
-cp "$logfile" "$REPOSITORY"/public/logs
-git -C "$REPOSITORY" add "$logfile"
+cp "$logfile" "$REPOSITORY"/public/logs/workflow.log
+git -C "$REPOSITORY" add public/logs/workflow.log
 git -C "$REPOSITORY" commit -m "Automated log update"
 git -C "$REPOSITORY" push
