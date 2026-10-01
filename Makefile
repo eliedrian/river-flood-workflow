@@ -22,11 +22,11 @@ units := glofas-fetch.service failure-email-send@.service \
 	 river-flood-workflow-log-dump.service \
 	 river-flood-workflow-dashboard-update.timer \
 	 river-flood-workflow-dashboard-update.target \
-	 river-flood-workflow-dashboard-log-push.service
+	 river-flood-workflow-log-push.service
 
 bins := failure-email-send.sh glofas-fetch.sh river-flood-process.sh \
 	river-flood-alert.sh csv-extraction.py river-flood-report.sh \
-	river-flood-workflow-log-dump.sh river-flood-workflow-dashboard-log-push.sh
+	river-flood-workflow-log-dump.sh river-flood-workflow-log-push.sh
 
 etcs := failure-email.tmpl ftp_password ftp_username mailing.list alert.list \
 	alert-email.tmpl report-email.tmpl weekly_report.list
