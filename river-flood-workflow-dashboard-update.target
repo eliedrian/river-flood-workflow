@@ -1,6 +1,0 @@
-[Unit]
-Description=Update river flood workflow dashboard
-StopWhenUnneeded=yes
-Wants=river-flood-workflow-log-dump.service river-flood-workflow-log-push.service
-PartOf=river-flood-workflow.target
-After=river-flood-process.service

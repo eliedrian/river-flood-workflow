@@ -20,8 +20,6 @@ units := glofas-fetch.service failure-email-send@.service \
 	 river-flood-workflow.timer glofas-cache-cleanup.service \
 	 river-flood-report.timer river-flood-report.service \
 	 river-flood-workflow-log-dump.service \
-	 river-flood-workflow-dashboard-update.timer \
-	 river-flood-workflow-dashboard-update.target \
 	 river-flood-workflow-log-push.service
 
 bins := failure-email-send.sh glofas-fetch.sh river-flood-process.sh \
