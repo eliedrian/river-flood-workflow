@@ -1,6 +1,7 @@
 [Unit]
 Description=Dump river flood workflow logs
-OnFailure=failure-email-send@%n.service
+PartOf=river-flood-workflow.target
+After=river-flood-process.service
 
 [Service]
 Type=oneshot
